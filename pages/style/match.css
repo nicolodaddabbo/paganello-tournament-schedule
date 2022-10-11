@@ -1,0 +1,130 @@
+.match {
+    /*display: flex;
+    flex-direction: column;*/
+    padding: 0 0;
+    border: 3px solid #009fe3;
+    border-radius: 8px;
+    margin-bottom: 1em;
+}
+
+.vs {
+    color: #009fe3;
+    font-size: large;
+    font-weight: bold;
+}
+
+.content.info {
+    padding: 0%;
+    padding-bottom: 0.3em;
+}
+
+.row {
+    display: flex;
+}
+  
+.content {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+    padding-bottom: .2em;
+}
+  
+.col {
+    flex: 1;
+    display: flex;
+}
+  
+.center {
+    flex: 0 0 300px;
+    display: flex;
+    margin: 0 .5em;
+}
+  
+.center .content {
+    flex: 1 1 100%;
+}
+  
+.left {
+    justify-content: flex-end;
+}
+  
+.left .content {
+    flex: 0 1 auto;
+}
+  
+.right .content {
+    flex: 0 1 auto;
+}
+
+.team-name {
+    font-size: larger;
+}
+
+.match-division-container {
+    margin-top: 0.5em;
+}
+
+.team-and-score {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.score {
+    font-size: larger;
+    font-weight: bold;
+    color: #009fe3;
+}
+
+@media screen and (max-width:768px) {
+    .row {
+      flex-direction: column;
+    }
+    
+    .col {
+      flex: 1;
+      justify-content: center;
+    }
+
+    .team-name {
+        padding: .3em;
+        padding-bottom: 0;
+    }
+
+    .score {
+        padding-left: .3em;
+    }
+   
+    .center {
+        margin: 0;
+        flex: 0 0 0px;
+    }
+
+    .content {
+        padding: .2em;
+    }
+
+    .team-and-score {
+        flex-direction: row;
+    }
+
+  
+}
+
+@media screen and (max-width:1024px) {
+    .center {
+        flex: 0 0 0px;  
+    }
+    .match-info-container {
+        margin-top: .3em;
+        display: flex;
+        flex-direction: column;
+    }
+    .match-division-container {
+        display: flex;
+        flex-direction: column;
+    }
+}
