@@ -13,12 +13,14 @@ body {
 .navbar {
     display: flex;
     background-color: #009fe3;
+    width: 100%;
 }
 
 .title {
     display: flex;
     align-items: center;
     padding: .5em;
+    width: 80%;
 }
 
 .header {
@@ -28,4 +30,52 @@ body {
 
 .link-to-main {
     cursor: pointer;
+}
+
+.pools-button-container {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pool-button {
+    padding: 10px;
+    font-size: 18px;
+    border: 2px solid white;
+    border-radius: 8px;
+    background-color: #009fe3;
+    color: white;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.pool-button:hover {
+    background-color: white;
+    color: #009fe3;
+}
+
+@media screen and (max-width:1024px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    .title {
+        width: 100%;
+    }
+
+    .pools-button-container {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .pool-button {
+        font-size: 15px;
+        border: 2px solid white;
+        border-radius: 8px;
+        background-color: #009fe3;
+        color: white;
+        cursor: pointer;
+        transition-duration: 0.4s;
+    }
 }

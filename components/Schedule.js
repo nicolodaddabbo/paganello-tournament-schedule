@@ -83,7 +83,6 @@ function Schedule(scheduleFromSheet) {
                     <option value="upcoming">Upcoming Games</option>
                     <option value="played">Played Games</option>
                 </select>
-                <button className='pool-button' onClick={()=>location.href='https://docs.google.com/spreadsheets/d/e/2PACX-1vQEHy9Sk4pw3YvkpJmcCdi1eRPygRMvf1dJA0vb0ustVnQrN_ID2DhN0A0GjqQROek72sv7sWi62a6H/pubhtml#'}>Pools and Brackets</button>
             </div>
             {
                 search(matches).map((match) => {
