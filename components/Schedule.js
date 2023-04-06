@@ -33,7 +33,7 @@ function Schedule(scheduleFromSheet) {
             }
         })
     }
-    
+
     matches.map((match) => (
         !fields.includes(match.field) && fields.push(match.field)
     ))
@@ -57,6 +57,7 @@ function Schedule(scheduleFromSheet) {
                         ))} */}
                     <option value="o ">OPEN</option>
                     <option value="m ">MIXED</option>
+                    <option value="w ">WOMEN</option>
                     <option value="u2">U20</option>
                     <option value="u1">U15</option>
                 </select>
