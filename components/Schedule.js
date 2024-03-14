@@ -55,8 +55,9 @@ function Schedule(scheduleFromSheet) {
                     {/* {divisions.map(division => (
                         <option value={division.toLowerCase()}>{division}</option>
                         ))} */}
+                    <option value="rm">REAL MIXED</option>
+                    <option value="lm">LOOSE MIXED</option>
                     <option value="o ">OPEN</option>
-                    <option value="m ">MIXED</option>
                     <option value="w ">WOMEN</option>
                     <option value="u2">U20</option>
                     <option value="u1">U15</option>
@@ -87,7 +88,7 @@ function Schedule(scheduleFromSheet) {
             </div>
             {
                 search(matches).map((match) => {
-                    return match.team1 && <Match team1={match.team1.replace(/['"]+/g, '')} team2={match.team2.replace(/['"]+/g, '')} field={match.field} time={match.time} day={match.day} division={match.division} team1Score={match.team1Score} team2Score={match.team2Score} />
+                    return match.team1 && <Match key={match.field.replace(/\s+/g, '') + "-" + match.time.substring(0, 2) + "-" + match.day} team1={match.team1.replace(/['"]+/g, '')} team2={match.team2.replace(/['"]+/g, '')} field={match.field} time={match.time} day={match.day} division={match.division} team1Score={match.team1Score} team2Score={match.team2Score} />
                 })
             }
         </div>
