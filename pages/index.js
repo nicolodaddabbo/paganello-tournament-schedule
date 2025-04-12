@@ -1,9 +1,8 @@
 import App from './App';
 import { google } from 'googleapis';
 
-const DEFAULT_NATION = "International"
 class Match {
-  constructor(field, time, division, team1, team1Nation = DEFAULT_NATION, team2, team2Nation = DEFAULT_NATION, team1Score, team2Score, day) {
+  constructor(field, time, division, team1, team1Nation, team2, team2Nation, team1Score, team2Score, day) {
     this.field = field;
     this.time = time;
     this.division = division;
@@ -82,10 +81,10 @@ export default function Home({ scheduleSaturday, scheduleSunday, scheduleMonday,
   function getNation(teamName) {
     if (!teamName) return ""
     const nationRow = nationalities.find((team) => {
-      return teamName.toLowerCase().includes(team[0].toLowerCase())
+      return teamName.trim().toLowerCase().includes(team[0].trim().toLowerCase())
     })
 
-    return nationRow ? nationRow[2] : DEFAULT_NATION
+    return nationRow ? nationRow[2] : ""
   }
 
   let matches = []
