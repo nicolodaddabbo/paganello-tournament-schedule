@@ -14,17 +14,12 @@ const Navbar = () => {
         <h1 className="header">Schedule 2025</h1>
       </div>
       <div className="pools-button-container">
-        <button
+        <a
           className="pool-button"
-          onClick={() =>
-            window.open(
-              "https://docs.google.com/spreadsheets/d/e/2PACX-1vRCZOg_D2OD5cwGJ8or9BIPxseAy-1yycpcKu1rRb6YBLQbC65Jz6iK29_y_kz6rLNfLl7I282F4hv6/pubhtml",
-              "_blank",
-            )
-          }
+          href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRCZOg_D2OD5cwGJ8or9BIPxseAy-1yycpcKu1rRb6YBLQbC65Jz6iK29_y_kz6rLNfLl7I282F4hv6/pubhtml"
         >
           Standings and Pools
-        </button>
+        </a>
       </div>
     </div>
   );
