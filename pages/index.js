@@ -81,7 +81,7 @@ export default function Home({ scheduleSaturday, scheduleSunday, scheduleMonday,
   function getNation(teamName) {
     if (!teamName) return ""
     const nationRow = nationalities.find((team) => {
-      return teamName.trim().toLowerCase().includes(team[0].trim().toLowerCase())
+      return teamName.trim().toLowerCase() === team[0].replace(/['"]+/g, '').trim().toLowerCase()
     })
 
     return nationRow ? nationRow[2] : ""
