@@ -33,21 +33,21 @@ export async function getStaticProps() {
 
   const scheduleResSaturday = await sheets.spreadsheets.values.get({
     spreadsheetId: process.env.SHEET_ID,
-    range: 'Saturday!A4:AW34',
+    range: 'Saturday!A4:AY37',
   }).catch(error => {
     throw new Error(`spreadsheets.values.get() error ${error}`)
   })
 
   const scheduleResSunday = await sheets.spreadsheets.values.get({
     spreadsheetId: process.env.SHEET_ID,
-    range: 'Sunday!A4:AW34',
+    range: 'Sunday!A4:AY34',
   }).catch(error => {
     throw new Error(`spreadsheets.values.get() error ${error}`)
   })
 
   const scheduleResMonday = await sheets.spreadsheets.values.get({
     spreadsheetId: process.env.SHEET_ID,
-    range: 'Monday!A4:AW28',
+    range: 'Monday!A4:AY28',
   }).catch(error => {
     throw new Error(`spreadsheets.values.get() error ${error}`)
   })

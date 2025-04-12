@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
         <meta charset="UTF-8" />
         <meta name="keywords" content="paganello, schedule, ultimate" />
         <meta name="author" content="Nicolò D'Addabbo" />
-        <title>Schedule Paganello 2024</title>
+        <title>Schedule Paganello 2025</title>
       </Head>
       <Component {...pageProps} />
     </>
