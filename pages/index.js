@@ -1,13 +1,16 @@
 import App from './App';
 import { google } from 'googleapis';
 
+const DEFAULT_NATION = "International"
 class Match {
-  constructor(field, time, division, team1, team2, team1Score, team2Score, day) {
+  constructor(field, time, division, team1, team1Nation = DEFAULT_NATION, team2, team2Nation = DEFAULT_NATION, team1Score, team2Score, day) {
     this.field = field;
     this.time = time;
     this.division = division;
     this.team1 = team1;
+    this.team1Nation = team1Nation;
     this.team2 = team2;
+    this.team2Nation = team2Nation;
     this.team1Score = team1Score;
     this.team2Score = team2Score;
     this.day = day;
@@ -52,27 +55,44 @@ export async function getStaticProps() {
     throw new Error(`spreadsheets.values.get() error ${error}`)
   })
 
+  const nationalitiesRes = await sheets.spreadsheets.values.get({
+    spreadsheetId: process.env.SHEET_ID,
+    range: 'Nationalities!A2:D152',
+  }).catch(error => {
+    throw new Error(`spreadsheets.values.get() error ${error}`)
+  })
+
   const scheduleSaturday = scheduleResSaturday.data
   const scheduleSunday = scheduleResSunday.data
   const scheduleMonday = scheduleResMonday.data
+  const nationalities = nationalitiesRes.data.values
 
   return {
     props: {
       scheduleSaturday,
       scheduleSunday,
-      scheduleMonday
+      scheduleMonday,
+      nationalities
     },
     revalidate: 60 * 5,
   }
 }
 
-export default function Home({ scheduleSaturday, scheduleSunday, scheduleMonday }) {
+export default function Home({ scheduleSaturday, scheduleSunday, scheduleMonday, nationalities }) {
+  function getNation(teamName) {
+    if (!teamName) return ""
+    const nationRow = nationalities.find((team) => {
+      return teamName.toLowerCase().includes(team[0].toLowerCase())
+    })
+
+    return nationRow ? nationRow[2] : DEFAULT_NATION
+  }
 
   let matches = []
   let matchRes
   let i = 3
   let colCounter = 0
-  let team1, team2
+  let team1, team2, team1Nation, team2Nation
 
   // SATURDAY
 
@@ -82,9 +102,11 @@ export default function Home({ scheduleSaturday, scheduleSunday, scheduleMonday 
     colCounter = 0
     do {
       team1 = JSON.stringify(matchRes[2][1 + colCounter])
+      team1Nation = JSON.stringify(getNation(team1))
       team2 = JSON.stringify(matchRes[3][1 + colCounter])
+      team2Nation = JSON.stringify(getNation(team2))
 
-      matches.push(new Match(matchRes[0][1 + colCounter], matchRes[1][0], matchRes[1][1 + colCounter], team1, team2, matchRes[2][2 + colCounter], matchRes[3][2 + colCounter], "Saturday"))
+      matches.push(new Match(matchRes[0][1 + colCounter], matchRes[1][0], matchRes[1][1 + colCounter], team1, team1Nation, team2, team2Nation, matchRes[2][2 + colCounter], matchRes[3][2 + colCounter], "Saturday"))
 
       colCounter += 2
     } while (colCounter < matchRes[0].length)
@@ -102,7 +124,10 @@ export default function Home({ scheduleSaturday, scheduleSunday, scheduleMonday 
     colCounter = 0
     do {
       team1 = JSON.stringify(matchRes[2][1 + colCounter])
+      team1Nation = JSON.stringify(getNation(team1))
       team2 = JSON.stringify(matchRes[3][1 + colCounter])
+      team2Nation = JSON.stringify(getNation(team2))
+
       matches.push(new Match(matchRes[0][1 + colCounter], matchRes[1][0], matchRes[1][1 + colCounter], team1, team2, matchRes[2][2 + colCounter], matchRes[3][2 + colCounter], "Sunday"))
       colCounter += 2
     } while (colCounter < matchRes[0].length)
@@ -120,7 +145,10 @@ export default function Home({ scheduleSaturday, scheduleSunday, scheduleMonday 
     colCounter = 0
     do {
       team1 = JSON.stringify(matchRes[2][1 + colCounter])
+      team1Nation = JSON.stringify(getNation(team1))
       team2 = JSON.stringify(matchRes[3][1 + colCounter])
+      team2Nation = JSON.stringify(getNation(team2))
+
       matches.push(new Match(matchRes[0][1 + colCounter], matchRes[1][0], matchRes[1][1 + colCounter], team1, team2, matchRes[2][2 + colCounter], matchRes[3][2 + colCounter], "Monday"))
       colCounter += 2
     } while (colCounter < matchRes[0].length)

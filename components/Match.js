@@ -1,6 +1,6 @@
 // Componente del singolo match
 
-const Match = ({ team1, team2, field, time, day, division, team1Score, team2Score }) => {
+const Match = ({ team1, team1Nation, team2, team2Nation, field, time, day, division, team1Score, team2Score }) => {
 
     return (
         <div className="match">
@@ -25,7 +25,7 @@ const Match = ({ team1, team2, field, time, day, division, team1Score, team2Scor
             <div className={"row teams-names-container" + (team1Score ? " with-score" : "")}>
                 <div className="col left team">
                     <div className="team-and-score">
-                        <p className="content team-name">{team1}</p>
+                        <p className="content team-name">{team1Nation} {team1}</p>
                         <p className="score">{team1Score}</p>
                     </div>
                 </div>
@@ -34,7 +34,7 @@ const Match = ({ team1, team2, field, time, day, division, team1Score, team2Scor
                 </div>
                 <div className="col right team">
                     <div className="team-and-score">
-                        <p className="content team-name">{team2}</p>
+                        <p className="content team-name">{team2Nation} {team2}</p>
                         <p className="score">{team2Score}</p>
                     </div>
                 </div>

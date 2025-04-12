@@ -88,7 +88,7 @@ function Schedule(scheduleFromSheet) {
             </div>
             {
                 search(matches).map((match) => {
-                    return match.team1 && <Match key={match.field.replace(/\s+/g, '') + "-" + match.time.substring(0, 2) + "-" + match.day} team1={match.team1.replace(/['"]+/g, '')} team2={match.team2.replace(/['"]+/g, '')} field={match.field} time={match.time} day={match.day} division={match.division} team1Score={match.team1Score} team2Score={match.team2Score} />
+                    return match.team1 && <Match key={match.field.replace(/\s+/g, '') + "-" + match.time.substring(0, 2) + "-" + match.day} team1={match.team1.replace(/['"]+/g, '')} team1Nation={match.team1Nation.replace(/['"]+/g, '')} team2={match.team2.replace(/['"]+/g, '')} team2Nation={match.team2Nation.replace(/['"]+/g, '')} field={match.field} time={match.time} day={match.day} division={match.division} team1Score={match.team1Score} team2Score={match.team2Score} />
                 })
             }
         </div>
