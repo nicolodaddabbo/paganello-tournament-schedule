@@ -15,6 +15,7 @@ function Schedule({ scheduleFromSheet }) {
   const [favoriteTeams, setFavoriteTeams] = useState([]);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [showHelperTooltip, setShowHelperTooltip] = useState(true);
 
   // Extract unique values for filter options
   const fields = [
@@ -55,6 +56,12 @@ function Schedule({ scheduleFromSheet }) {
     const savedShowFavoritesOnly = localStorage.getItem("showFavoritesOnly");
     if (savedShowFavoritesOnly) {
       setShowFavoritesOnly(JSON.parse(savedShowFavoritesOnly));
+    }
+
+    // Check if user has seen the helper tooltip
+    const hasSeenTooltip = localStorage.getItem("hasSeenFavoriteTooltip");
+    if (hasSeenTooltip) {
+      setShowHelperTooltip(false);
     }
   }, []);
 
@@ -97,6 +104,12 @@ function Schedule({ scheduleFromSheet }) {
     });
     setShowFavoritesOnly(false);
     setShowFilters(false);
+  };
+
+  // Function to dismiss tooltip
+  const dismissTooltip = () => {
+    localStorage.setItem("hasSeenFavoriteTooltip", "true");
+    setShowHelperTooltip(false);
   };
 
   // Get active filter count for the badge
@@ -276,14 +289,37 @@ function Schedule({ scheduleFromSheet }) {
         )}
       </div>
 
+      {showHelperTooltip && (
+        <div className="helper-tooltip">
+          <p>
+            Click the ☆ icon next to a team name to add it to your favorites
+          </p>
+          <button onClick={dismissTooltip}>Got it</button>
+        </div>
+      )}
+
       {favoriteTeams.length > 0 && (
         <div className="favorite-teams">
-          <h3>Favorite Teams</h3>
+          <div className="favorite-header">
+            <h3>Your Favorite Teams</h3>
+            <button
+              className={`toggle-favorites-btn ${showFavoritesOnly ? "active" : ""}`}
+              onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+            >
+              {showFavoritesOnly ? "Show All Matches" : "Show Only Favorites"}
+            </button>
+          </div>
           <div className="favorite-teams-list">
             {favoriteTeams.map((team, index) => (
               <div key={index} className="favorite-team-tag">
+                <span className="favorite-star">★</span>
                 {team}
-                <button onClick={() => toggleFavoriteTeam(team)}>✕</button>
+                <button
+                  onClick={() => toggleFavoriteTeam(team)}
+                  title="Remove from favorites"
+                >
+                  ✕
+                </button>
               </div>
             ))}
           </div>
@@ -316,22 +352,10 @@ function Schedule({ scheduleFromSheet }) {
                   division={match.division}
                   team1Score={match.team1Score}
                   team2Score={match.team2Score}
+                  isTeam1Favorite={isTeam1Favorite}
+                  isTeam2Favorite={isTeam2Favorite}
+                  onToggleFavorite={toggleFavoriteTeam}
                 />
-
-                <div className="favorite-buttons">
-                  <button
-                    className={`favorite-btn ${isTeam1Favorite ? "favorite" : ""}`}
-                    onClick={() => toggleFavoriteTeam(team1)}
-                  >
-                    {isTeam1Favorite ? "★" : "☆"} {team1}
-                  </button>
-                  <button
-                    className={`favorite-btn ${isTeam2Favorite ? "favorite" : ""}`}
-                    onClick={() => toggleFavoriteTeam(team2)}
-                  >
-                    {isTeam2Favorite ? "★" : "☆"} {team2}
-                  </button>
-                </div>
               </div>
             );
           })
@@ -342,4 +366,3 @@ function Schedule({ scheduleFromSheet }) {
 }
 
 export default Schedule;
-
