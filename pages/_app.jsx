@@ -1,7 +1,4 @@
-import "./style/index.css";
-import "./style/match.css";
-import "./style/schedule.css";
-import "./style/search.css";
+import "./style/global.css";
 import Head from "next/head";
 import { Bricolage_Grotesque } from "next/font/google";
 
