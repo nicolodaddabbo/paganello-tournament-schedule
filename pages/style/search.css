@@ -1,4 +1,3 @@
-/* Existing CSS */
 /* Compact filter styles */
 .filter-header {
   position: relative;
@@ -17,6 +16,8 @@
   border-radius: 8px;
   flex: 1;
   min-width: 0;
+  height: 38px;
+  box-sizing: border-box;
 }
 
 .filter-toggle-btn {
@@ -30,6 +31,8 @@
   border-radius: 8px;
   cursor: pointer;
   white-space: nowrap;
+  height: 38px;
+  box-sizing: border-box;
 }
 
 .filter-badge {
@@ -72,16 +75,33 @@
 
 .filter-item label {
   font-family: "Bricolage Grotesque";
-  font-size: 0.8rem;
-  color: #666;
+  font-size: 0.85rem;
+  color: #555;
+  font-weight: 500;
+  margin-bottom: 4px;
 }
 
 .filter-item select {
   font-family: "Bricolage Grotesque";
-  padding: 6px;
+  padding: 8px 12px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 8px;
   background-color: #f9f9f9;
+  width: 100%;
+  font-size: 0.9rem;
+  height: 38px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23009fe3' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.filter-item select:focus {
+  outline: none;
+  border-color: #009fe3;
+  box-shadow: 0 0 0 2px rgba(0, 159, 227, 0.2);
 }
 
 .favorites-toggle {
@@ -91,30 +111,76 @@
 .favorites-toggle label {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
   cursor: pointer;
+  padding: 8px 0;
+}
+
+.favorites-toggle input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  position: relative;
+}
+
+.favorites-toggle input[type="checkbox"]:checked {
+  background-color: #009fe3;
+  border-color: #009fe3;
+}
+
+.favorites-toggle input[type="checkbox"]:checked::after {
+  content: "✓";
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+}
+
+.favorites-toggle input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 159, 227, 0.2);
 }
 
 .filter-actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
-  gap: 10px;
-}
-
-.clear-filters-btn,
-.apply-filters-btn {
-  font-family: "Bricolage Grotesque";
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
+  margin-top: 20px;
+  gap: 12px;
 }
 
 .clear-filters-btn {
   background-color: #f0f0f0;
   border: 1px solid #ddd;
+  color: #555;
   flex: 1;
+  font-family: "Bricolage Grotesque";
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition:
+    background-color 0.2s,
+    transform 0.1s;
+  height: 38px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clear-filters-btn:hover {
+  background-color: #e5e5e5;
+}
+
+.clear-filters-btn:active {
+  transform: scale(0.98);
 }
 
 .apply-filters-btn {
@@ -122,6 +188,28 @@
   border: 1px solid #009fe3;
   color: white;
   flex: 1;
+  font-family: "Bricolage Grotesque";
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition:
+    background-color 0.2s,
+    transform 0.1s;
+  height: 38px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.apply-filters-btn:hover {
+  background-color: #0089c3;
+}
+
+.apply-filters-btn:active {
+  transform: scale(0.98);
 }
 
 /* Favorite teams section */
@@ -205,26 +293,13 @@
   font-family: "Bricolage Grotesque";
 }
 
-/* Mobile adjustments */
-@media screen and (max-width: 768px) {
-  .filter-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .favorites-toggle {
-    grid-column: span 1;
-  }
-
-  .favorite-buttons {
-    flex-direction: column;
-  }
-}
-
 /* New CSS for improved favorite functionality */
 .team-with-favorite {
   display: flex;
   align-items: center;
   gap: 5px;
+  flex: 1;
+  min-width: 0;
 }
 
 .favorite-icon {
@@ -236,6 +311,12 @@
   padding: 0;
   line-height: 1;
   transition: transform 0.2s ease;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .favorite-icon.favorite {
@@ -267,6 +348,8 @@
   padding: 5px 10px;
   cursor: pointer;
   font-family: "Bricolage Grotesque";
+  white-space: nowrap;
+  margin-left: 10px;
 }
 
 .favorite-header {
@@ -284,6 +367,7 @@
   padding: 4px 8px;
   font-size: 0.8rem;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .toggle-favorites-btn.active {
@@ -301,6 +385,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  margin: 0;
+  padding: 0;
 }
 
 /* Adjust team-and-score for the new layout */
@@ -309,4 +395,71 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  gap: 8px;
+}
+
+/* Ensure score is properly aligned */
+.score {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Adjust the teams-names-container */
+.teams-names-container {
+  display: flex;
+  align-items: center;
+}
+
+.teams-names-container .col {
+  display: flex;
+  align-items: center;
+}
+
+.teams-names-container .col.left,
+.teams-names-container .col.right {
+  flex: 1;
+  min-width: 0;
+}
+
+.teams-names-container .col.center {
+  flex-shrink: 0;
+  padding: 0 10px;
+}
+
+/* Mobile adjustments */
+@media screen and (max-width: 768px) {
+  .filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .favorites-toggle {
+    grid-column: span 1;
+  }
+
+  .favorite-buttons {
+    flex-direction: column;
+  }
+
+  .helper-tooltip {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .helper-tooltip button {
+    align-self: flex-end;
+  }
+
+  .favorite-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .team-with-favorite {
+    max-width: calc(100% - 30px);
+  }
 }
