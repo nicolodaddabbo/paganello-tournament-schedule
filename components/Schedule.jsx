@@ -15,7 +15,7 @@ function Schedule({ scheduleFromSheet }) {
   const [favoriteTeams, setFavoriteTeams] = useState([]);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
-  const [showHelperTooltip, setShowHelperTooltip] = useState(true);
+  const [showHelperTooltip, setShowHelperTooltip] = useState(false);
 
   // Extract unique values for filter options
   const fields = [
@@ -30,6 +30,7 @@ function Schedule({ scheduleFromSheet }) {
   ];
 
   // Load data and saved preferences
+  // In your useEffect
   useEffect(() => {
     // Set matches from props
     setMatches(scheduleFromSheet.scheduleFromSheet);
@@ -60,8 +61,9 @@ function Schedule({ scheduleFromSheet }) {
 
     // Check if user has seen the helper tooltip
     const hasSeenTooltip = localStorage.getItem("hasSeenFavoriteTooltip");
-    if (hasSeenTooltip) {
-      setShowHelperTooltip(false);
+    // Only show the tooltip if the user hasn't seen it before
+    if (!hasSeenTooltip) {
+      setShowHelperTooltip(true);
     }
   }, []);
 
