@@ -96,6 +96,7 @@ function Schedule({ scheduleFromSheet }) {
       game: "all",
     });
     setShowFavoritesOnly(false);
+    setShowFilters(false);
   };
 
   // Get active filter count for the badge
