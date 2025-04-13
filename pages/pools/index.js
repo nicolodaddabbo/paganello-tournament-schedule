@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { google } from 'googleapis';
 
 class PoolRow {
@@ -32,7 +33,7 @@ export async function getStaticProps() {
     const sheets = google.sheets({ version: 'v4', auth: client });
 
     const sheetNames = ['Real Mixed pools', 'Loose Mixed pools', 'Open pools', 'Women pools', 'U20 Pools', 'U15 Pools'];
-    const pools = [];
+    const groupedPools = {};
 
     for (const sheetName of sheetNames) {
         const sheetData = await sheets.spreadsheets.values.get({
@@ -43,6 +44,7 @@ export async function getStaticProps() {
         });
 
         const rawData = sheetData.data.values;
+        const pools = [];
 
         for (let i = 0; i < rawData.length; i++) {
             const row = rawData[i];
@@ -89,23 +91,25 @@ export async function getStaticProps() {
                 }
             }
         }
+
+        groupedPools[sheetName] = pools.map(pool => ({
+            name: pool.name,
+            rows: pool.rows.map(row => ({
+                team: row.team,
+                pt: row.pt,
+                w: row.w,
+                l: row.l,
+                p: row.p,
+                gs: row.gs,
+                ga: row.ga,
+                gd: row.gd
+            }))
+        }));
     }
 
     return {
         props: {
-            pools: pools.map(pool => ({
-                name: pool.name,
-                rows: pool.rows.map(row => ({
-                    team: row.team,
-                    pt: row.pt,
-                    w: row.w,
-                    l: row.l,
-                    p: row.p,
-                    gs: row.gs,
-                    ga: row.ga,
-                    gd: row.gd
-                }))
-            }))
+            groupedPools,
         },
         // Revalidate every 5 minutes
         revalidate: 300
@@ -149,83 +153,33 @@ const PoolTable = ({ pool }) => {
     );
 };
 
-export default function PoolsPage({ pools }) {
+export default function PoolsPage({ groupedPools }) {
+    const [selectedSheet, setSelectedSheet] = useState(Object.keys(groupedPools)[0]);
+
     return (
         <div className="pools-page">
             <h1>Tournament Pools</h1>
             
+            <div className="sheet-selector">
+                <label htmlFor="sheet-select">Select Pool Category:</label>
+                <select
+                    id="sheet-select"
+                    value={selectedSheet}
+                    onChange={(e) => setSelectedSheet(e.target.value)}
+                >
+                    {Object.keys(groupedPools).map(sheetName => (
+                        <option key={sheetName} value={sheetName}>
+                            {sheetName}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
             <div className="pools-grid">
-                {pools.map((pool) => (
+                {groupedPools[selectedSheet].map((pool) => (
                     <PoolTable key={pool.name} pool={pool} />
                 ))}
             </div>
-
-            <style jsx>{`
-                .pools-page {
-                    padding: 20px;
-                    font-family: sans-serif;
-                    max-width: 1200px;
-                    margin: 0 auto;
-                }
-                
-                h1 {
-                    color: #333;
-                    text-align: center;
-                    margin-bottom: 40px;
-                }
-                
-                .pools-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-                    grid-gap: 30px;
-                }
-                
-                .pool-container {
-                    background-color: #f9f9f9;
-                    border-radius: 10px;
-                    padding: 20px;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                }
-                
-                .pool-title {
-                    text-align: center;
-                    margin-bottom: 20px;
-                    color: #2c5282;
-                    font-size: 24px;
-                    font-weight: bold;
-                }
-                
-                .pool-table {
-                    width: 100%;
-                    border-collapse: collapse;
-                }
-                
-                .pool-table th, .pool-table td {
-                    padding: 12px 8px;
-                    text-align: center;
-                    border-bottom: 1px solid #e2e8f0;
-                }
-                
-                .pool-table th {
-                    background-color: #4299e1;
-                    color: white;
-                    font-weight: bold;
-                }
-                
-                .pool-table tr:nth-child(even) {
-                    background-color: #f0f4f8;
-                }
-                
-                .pool-table tr:hover {
-                    background-color: #e6f1ff;
-                }
-                
-                @media (max-width: 768px) {
-                    .pools-grid {
-                        grid-template-columns: 1fr;
-                    }
-                }
-            `}</style>
         </div>
     );
 }
