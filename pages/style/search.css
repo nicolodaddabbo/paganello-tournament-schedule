@@ -1,3 +1,4 @@
+/* Existing CSS */
 /* Compact filter styles */
 .filter-header {
   position: relative;
@@ -217,4 +218,95 @@
   .favorite-buttons {
     flex-direction: column;
   }
+}
+
+/* New CSS for improved favorite functionality */
+.team-with-favorite {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.favorite-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #ccc;
+  padding: 0;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.favorite-icon.favorite {
+  color: #009fe3;
+}
+
+.favorite-icon:hover {
+  transform: scale(1.2);
+}
+
+.helper-tooltip {
+  background-color: #e6f7ff;
+  border: 1px solid #009fe3;
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Bricolage Grotesque";
+  font-size: 0.9rem;
+}
+
+.helper-tooltip button {
+  background-color: #009fe3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-family: "Bricolage Grotesque";
+}
+
+.favorite-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.toggle-favorites-btn {
+  font-family: "Bricolage Grotesque";
+  background-color: #f0f0f0;
+  border: 1px solid #009fe3;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.toggle-favorites-btn.active {
+  background-color: #009fe3;
+  color: white;
+}
+
+.favorite-star {
+  color: #009fe3;
+  margin-right: 4px;
+}
+
+/* Ensure team names don't overflow */
+.team-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Adjust team-and-score for the new layout */
+.team-and-score {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
