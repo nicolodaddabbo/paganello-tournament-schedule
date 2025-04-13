@@ -1,36 +1,220 @@
-.search-filter {
+/* Compact filter styles */
+.filter-header {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.search-compact {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .search-bar {
   font-family: "Bricolage Grotesque";
-  padding: 6px;
-  margin-bottom: 1em;
+  padding: 8px 12px;
   border: 2px solid #009fe3;
   border-radius: 8px;
-  width: 15%;
+  flex: 1;
+  min-width: 0;
 }
 
-.search-div {
+.filter-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: "Bricolage Grotesque";
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border: 2px solid #009fe3;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.filter-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #009fe3;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+}
+
+.filters-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: white;
+  border: 2px solid #009fe3;
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filter-item label {
+  font-family: "Bricolage Grotesque";
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.filter-item select {
   font-family: "Bricolage Grotesque";
   padding: 6px;
-  margin-bottom: 1em;
-  border: 2px solid #009fe3;
-  border-radius: 8px;
-  width: 15%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
 }
 
-@media screen and (max-width: 1024px) {
-  .search-filter {
+.favorites-toggle {
+  grid-column: span 2;
+}
+
+.favorites-toggle label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.filter-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  gap: 10px;
+}
+
+.clear-filters-btn,
+.apply-filters-btn {
+  font-family: "Bricolage Grotesque";
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.clear-filters-btn {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  flex: 1;
+}
+
+.apply-filters-btn {
+  background-color: #009fe3;
+  border: 1px solid #009fe3;
+  color: white;
+  flex: 1;
+}
+
+/* Favorite teams section */
+.favorite-teams {
+  margin: 0 0 15px 0;
+  padding: 10px 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #009fe3;
+  font-family: "Bricolage Grotesque";
+}
+
+.favorite-teams h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #009fe3;
+  font-size: 0.9rem;
+}
+
+.favorite-teams-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.favorite-team-tag {
+  display: flex;
+  align-items: center;
+  background-color: #e6f7ff;
+  border: 1px solid #009fe3;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+}
+
+.favorite-team-tag button {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  margin-left: 6px;
+  font-size: 12px;
+}
+
+/* Match items */
+.match-container {
+  margin-bottom: 15px;
+}
+
+.favorite-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.favorite-btn {
+  font-family: "Bricolage Grotesque";
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  flex: 1;
+}
+
+.favorite-btn:hover {
+  border-color: #009fe3;
+}
+
+.favorite-btn.favorite {
+  background-color: #e6f7ff;
+  border-color: #009fe3;
+  color: #009fe3;
+}
+
+.no-matches {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-family: "Bricolage Grotesque";
+}
+
+/* Mobile adjustments */
+@media screen and (max-width: 768px) {
+  .filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .favorites-toggle {
+    grid-column: span 1;
+  }
+
+  .favorite-buttons {
     flex-direction: column;
   }
-  .search-bar {
-    width: 100%;
-  }
-  .search-div {
-    width: 100%;
-  }
 }
-
