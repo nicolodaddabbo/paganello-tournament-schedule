@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import logo from "../pages/assets/Paganello_Logo_White.svg";
+import Link from "next/link";
 
 const Navbar = ({ title, buttonText, buttonHref }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,12 +33,9 @@ const Navbar = ({ title, buttonText, buttonHref }) => {
         </div>
 
         <div className={`navbar-links ${isMenuOpen ? "active" : ""}`}>
-          <a
-            className="pool-button"
-            href={buttonHref}
-          >
+          <Link className="pool-button" href={buttonHref}>
             {buttonText}
-          </a>
+          </Link>
         </div>
       </div>
     </nav>
