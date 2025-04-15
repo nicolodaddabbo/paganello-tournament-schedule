@@ -170,12 +170,12 @@ const PoolTable = ({ pool }) => {
 
 export default function PoolsPage({ groupedPools }) {
     const [selectedSheet, setSelectedSheet] = useState(Object.keys(groupedPools)[0]);
-    
+
     // Get unique brackets from the selected sheet
     const uniqueBrackets = [...new Set(groupedPools[selectedSheet]
         .map(pool => pool.bracket)
         .filter(bracket => bracket))] // Filter out empty brackets
-    
+
     const [selectedBracket, setSelectedBracket] = useState(uniqueBrackets[0] || '');
 
     return (
@@ -186,44 +186,44 @@ export default function PoolsPage({ groupedPools }) {
                 buttonHref="/"
             />
 
-            <div className="pools">
-                <div>
-                    <label htmlFor="sheet-select">Select Pool Category:</label>
-                    <select
-                        id="sheet-select"
-                        value={selectedSheet}
-                        onChange={(e) => {
-                            const newSheet = e.target.value;
-                            setSelectedSheet(newSheet);
-                            // When changing sheet, also update the selected bracket
-                            const newUniqueBrackets = [...new Set(groupedPools[newSheet]
-                                .map(pool => pool.bracket)
-                                .filter(bracket => bracket))];
-                            setSelectedBracket(newUniqueBrackets[0] || '');
-                        }}
-                    >
-                        {Object.keys(groupedPools).map(sheetName => (
-                            <option key={sheetName} value={sheetName}>
-                                {sheetName}
-                            </option>
-                        ))}
-                    </select>
+            <div className="schedule">
+                <div className="filter-header pools-filters">
+                    <div className="filter-item">
+                        <label htmlFor="sheet-select">Select Pool Category:</label>
+                        <select
+                            id="sheet-select"
+                            value={selectedSheet}
+                            onChange={(e) => {
+                                const newSheet = e.target.value;
+                                setSelectedSheet(newSheet);
+                                // When changing sheet, also update the selected bracket
+                                const newUniqueBrackets = [...new Set(groupedPools[newSheet]
+                                    .map(pool => pool.bracket)
+                                    .filter(bracket => bracket))];
+                                setSelectedBracket(newUniqueBrackets[0] || '');
+                            }}
+                        >
+                            {Object.keys(groupedPools).map(sheetName => (
+                                <option key={sheetName} value={sheetName}>
+                                    {sheetName}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="filter-item">
+                        <select
+                            id="bracket-select"
+                            value={selectedBracket}
+                            onChange={(e) => setSelectedBracket(e.target.value)}
+                        >
+                            {uniqueBrackets.map(bracket => (
+                                <option key={bracket} value={bracket}>
+                                    {bracket}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor="bracket-select">Select Pool Bracket:</label>
-                    <select
-                        id="bracket-select"
-                        value={selectedBracket}
-                        onChange={(e) => setSelectedBracket(e.target.value)}
-                    >
-                        {uniqueBrackets.map(bracket => (
-                            <option key={bracket} value={bracket}>
-                                {bracket}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
                 <div className="pools-grid">
                     {groupedPools[selectedSheet]
                         .filter(pool => pool.bracket === selectedBracket)
