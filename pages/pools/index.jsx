@@ -16,8 +16,9 @@ class PoolRow {
 }
 
 class Pool {
-    constructor(name, rows) {
+    constructor(name, bracket, rows) {
         this.name = name;
+        this.braket = bracket;
         this.rows = rows;
     }
 }
@@ -35,6 +36,7 @@ export async function getStaticProps() {
 
     const sheetNames = ['Real Mixed pools', 'Loose Mixed pools', 'Open pools', 'Women pools', 'U20 Pools', 'U15 Pools'];
     const groupedPools = {};
+    let currentBracket = '';
 
     for (const sheetName of sheetNames) {
         const sheetData = await sheets.spreadsheets.values.get({
@@ -86,9 +88,9 @@ export async function getStaticProps() {
                         ));
                     }
                 }
-                pools.push(new Pool(poolNameLeft, poolRowsLeft));
+                pools.push(new Pool(poolNameLeft, currentBracket, poolRowsLeft));
                 if (poolNameRight) {
-                    pools.push(new Pool(poolNameRight, poolRowsRight));
+                    pools.push(new Pool(poolNameRight, currentBracket, poolRowsRight));
                 }
             } else if (row[1] &&
                 (row[1].startsWith('REAL MIXED') ||
@@ -99,11 +101,13 @@ export async function getStaticProps() {
                     row[1].startsWith('U15')
                 )) {
                 console.log(`YOO: ${row[1].trim().replace(/^,/, '')}`);
+                currentBracket = row[1].trim().replace(/^,/, '');
             }
         }
 
         groupedPools[sheetName] = pools.map(pool => ({
             name: pool.name,
+            bracket: pool.braket,
             rows: pool.rows.map(row => ({
                 team: row.team,
                 pt: row.pt,
@@ -130,7 +134,8 @@ export async function getStaticProps() {
 const PoolTable = ({ pool }) => {
     return (
         <div className="pool-container">
-            <h2 className="pool-title">{pool.name}</h2>
+            <h2 className="pool-title">{pool.bracket}</h2>
+            <h3 className="pool-title">{pool.name}</h3>
             <table className="pool-table">
                 <thead>
                     <tr>
@@ -165,6 +170,13 @@ const PoolTable = ({ pool }) => {
 
 export default function PoolsPage({ groupedPools }) {
     const [selectedSheet, setSelectedSheet] = useState(Object.keys(groupedPools)[0]);
+    
+    // Get unique brackets from the selected sheet
+    const uniqueBrackets = [...new Set(groupedPools[selectedSheet]
+        .map(pool => pool.bracket)
+        .filter(bracket => bracket))] // Filter out empty brackets
+    
+    const [selectedBracket, setSelectedBracket] = useState(uniqueBrackets[0] || '');
 
     return (
         <div>
@@ -180,7 +192,15 @@ export default function PoolsPage({ groupedPools }) {
                     <select
                         id="sheet-select"
                         value={selectedSheet}
-                        onChange={(e) => setSelectedSheet(e.target.value)}
+                        onChange={(e) => {
+                            const newSheet = e.target.value;
+                            setSelectedSheet(newSheet);
+                            // When changing sheet, also update the selected bracket
+                            const newUniqueBrackets = [...new Set(groupedPools[newSheet]
+                                .map(pool => pool.bracket)
+                                .filter(bracket => bracket))];
+                            setSelectedBracket(newUniqueBrackets[0] || '');
+                        }}
                     >
                         {Object.keys(groupedPools).map(sheetName => (
                             <option key={sheetName} value={sheetName}>
@@ -189,11 +209,27 @@ export default function PoolsPage({ groupedPools }) {
                         ))}
                     </select>
                 </div>
+                <div>
+                    <label htmlFor="bracket-select">Select Pool Bracket:</label>
+                    <select
+                        id="bracket-select"
+                        value={selectedBracket}
+                        onChange={(e) => setSelectedBracket(e.target.value)}
+                    >
+                        {uniqueBrackets.map(bracket => (
+                            <option key={bracket} value={bracket}>
+                                {bracket}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 
                 <div className="pools-grid">
-                    {groupedPools[selectedSheet].map((pool) => (
-                        <PoolTable key={pool.name} pool={pool} />
-                    ))}
+                    {groupedPools[selectedSheet]
+                        .filter(pool => pool.bracket === selectedBracket)
+                        .map((pool) => (
+                            <PoolTable key={pool.name} pool={pool} />
+                        ))}
                 </div>
             </div>
         </div>
