@@ -776,4 +776,89 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  margin-bottom: 25px;
+}
+
+.pools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.pool-container {
+  border: 3px solid #009fe3;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1em;
+}
+
+.pool-title {
+  background-color: #009fe3;
+  color: white;
+  padding: 10px 15px;
+  margin: 0;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.pool-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Bricolage Grotesque", sans-serif;
+}
+
+.pool-table thead {
+  background-color: #f9f9f9;
+}
+
+.pool-table th {
+  padding: 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #333;
+  border-bottom: 2px solid #ddd;
+}
+
+.pool-table td {
+  padding: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #eee;
+}
+
+.pool-table td:first-child {
+  text-align: left;
+  padding-left: 15px;
+  font-weight: 500;
+}
+
+/* Apply even/odd row styling */
+.pool-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .pools-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pool-table {
+    font-size: 0.85rem;
+  }
+  
+  .pool-table th, 
+  .pool-table td {
+    padding: 6px 4px;
+  }
+  
+  .pool-table td:first-child {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }

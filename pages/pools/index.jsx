@@ -16,10 +16,11 @@ class PoolRow {
 }
 
 class Pool {
-    constructor(name, bracket, rows) {
+    constructor(name, bracket, rows, rankings) {
         this.name = name;
         this.braket = bracket;
         this.rows = rows;
+        this.rankings = rankings;
     }
 }
 export async function getStaticProps() {
@@ -37,8 +38,11 @@ export async function getStaticProps() {
     const sheetNames = ['Real Mixed pools', 'Loose Mixed pools', 'Open pools', 'Women pools', 'U20 Pools', 'U15 Pools'];
     const groupedPools = {};
     let currentBracket = '';
+    let currentLeftPool = '';
+    let currentRightPool = '';
 
     for (const sheetName of sheetNames) {
+        const rankings = [];
         const sheetData = await sheets.spreadsheets.values.get({
             spreadsheetId: process.env.SHEET_ID,
             range: `${sheetName}!A1:V214`,
@@ -53,10 +57,12 @@ export async function getStaticProps() {
             const row = rawData[i];
             if (row[1] && row[1].startsWith('POOL')) {
                 const poolNameLeft = row[1];
+                currentLeftPool = poolNameLeft;
                 const poolNameRight = row[13]; // Handle the second pool in the same row
+                currentRightPool = poolNameRight;
                 const poolRowsLeft = [];
                 const poolRowsRight = [];
-                for (let j = i + 3; j < rawData.length; j++) {
+                for (let j = i + 4; j < rawData.length; j++) {
                     const teamRow = rawData[j];
                     if (!teamRow[1] || teamRow[1].startsWith('Ranking')) break;
 
@@ -100,8 +106,41 @@ export async function getStaticProps() {
                     row[1].startsWith('U20') ||
                     row[1].startsWith('U15')
                 )) {
-                console.log(`YOO: ${row[1].trim().replace(/^,/, '')}`);
                 currentBracket = row[1].trim().replace(/^,/, '');
+            } else if (row[1] && row[1].startsWith('Ranking')) {
+                const rankingRowLeft = [];
+                const rankingRowRight = [];
+                for (let j = i + 2; j < rawData.length; j++) {
+                    const rankingRow = rawData[j];
+                    if (!rankingRow[1] ||
+                        rankingRow[1].startsWith('POOL') ||
+                        rankingRow[1].startsWith('REAL MIXED') ||
+                        rankingRow[1].startsWith('LOOSE MIXED') ||
+                        rankingRow[1].startsWith('OPEN') ||
+                        row[1].startsWith('WOMEN') ||
+                        row[1].startsWith('U20') ||
+                        row[1].startsWith('U15')
+                    )
+                        break;
+
+                    if (rankingRow[2]) {
+                        rankingRowLeft.push(rankingRow[2]);
+                    }
+
+                    if (rankingRow[14]) {
+                        rankingRowRight.push(rankingRow[14]);
+                    }
+                }
+                rankings.push({
+                    poolName: currentLeftPool,
+                    rankings: rankingRowLeft
+                });
+                if (currentRightPool) {
+                    rankings.push({
+                        poolName: currentRightPool,
+                        rankings: rankingRowRight
+                    });
+                }
             }
         }
 
@@ -117,9 +156,12 @@ export async function getStaticProps() {
                 gs: row.gs,
                 ga: row.ga,
                 gd: row.gd
-            }))
+            })),
+            rankings: rankings.find(r => r.poolName === pool.name)?.rankings || []
         }));
     }
+
+    console.log("GROUPED POOLS", JSON.stringify(groupedPools));
 
     return {
         props: {
@@ -132,10 +174,25 @@ export async function getStaticProps() {
 
 // Component to display a single pool table
 const PoolTable = ({ pool }) => {
+    const sortedRows = pool.rows.sort((a, b) => {
+        const indexA = pool.rankings.indexOf(a.team);
+        const indexB = pool.rankings.indexOf(b.team);
+        // If both teams are not in rankings, maintain original order
+        if (indexA === -1 && indexB === -1) return 0;
+
+        // If only team A is not in rankings, place it after B
+        if (indexA === -1) return 1;
+
+        // If only team B is not in rankings, place it after A
+        if (indexB === -1) return -1;
+
+        // Otherwise sort by ranking positions
+        return indexA - indexB;
+    });
+
     return (
         <div className="pool-container">
-            <h2 className="pool-title">{pool.bracket}</h2>
-            <h3 className="pool-title">{pool.name}</h3>
+            <h2 className="pool-title">{pool.name}</h2>
             <table className="pool-table">
                 <thead>
                     <tr>
@@ -150,7 +207,7 @@ const PoolTable = ({ pool }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {pool.rows.map((row, index) => (
+                    {sortedRows.map((row, index) => (
                         <tr key={index}>
                             <td>{row.team}</td>
                             <td>{row.pt}</td>
@@ -189,7 +246,7 @@ export default function PoolsPage({ groupedPools }) {
             <div className="schedule">
                 <div className="filter-header pools-filters">
                     <div className="filter-item">
-                        <label htmlFor="sheet-select">Select Pool Category:</label>
+                        <label htmlFor="sheet-select">Division</label>
                         <select
                             id="sheet-select"
                             value={selectedSheet}
