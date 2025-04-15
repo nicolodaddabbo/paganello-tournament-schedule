@@ -161,8 +161,6 @@ export async function getStaticProps() {
         }));
     }
 
-    console.log("GROUPED POOLS", JSON.stringify(groupedPools));
-
     return {
         props: {
             groupedPools,
