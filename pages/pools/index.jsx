@@ -262,7 +262,7 @@ export default function PoolsPage({ groupedPools }) {
                         >
                             {Object.keys(groupedPools).map(sheetName => (
                                 <option key={sheetName} value={sheetName}>
-                                    {sheetName}
+                                    {sheetName.replace(/\bpools\b/g, '')}
                                 </option>
                             ))}
                         </select>
@@ -275,7 +275,7 @@ export default function PoolsPage({ groupedPools }) {
                         >
                             {uniqueBrackets.map(bracket => (
                                 <option key={bracket} value={bracket}>
-                                    {bracket}
+                                    {bracket.replace(/^.+?\s+(\d+-\d+)$/, 'Bracket $1')}
                                 </option>
                             ))}
                         </select>
