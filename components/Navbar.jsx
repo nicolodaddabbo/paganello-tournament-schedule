@@ -36,6 +36,9 @@ const Navbar = ({ title, buttonText, buttonHref }) => {
           <Link className="pool-button" href={buttonHref}>
             {buttonText}
           </Link>
+          <Link className="pool-button" href="/sotg">
+            SOTG
+          </Link>
         </div>
       </div>
     </nav>

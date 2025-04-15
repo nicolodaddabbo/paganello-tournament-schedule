@@ -42,6 +42,7 @@
 .navbar-links {
   display: flex;
   align-items: center;
+  gap: 1rem;
 }
 
 .pool-button {
@@ -62,6 +63,28 @@
 .pool-button:hover {
   background-color: white;
   color: #009fe3;
+  transform: translateY(-2px);
+}
+
+.sotg-button {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1.2rem;
+  padding: 1rem 2rem;
+  font-weight: 500;
+  border: 2px solid #009fe3;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #009fe3;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.sotg-button:hover {
+  background-color: #009fe3;
+  color: white;
   transform: translateY(-2px);
 }
 
@@ -117,6 +140,14 @@
   }
 
   .pool-button {
+    margin: 1rem 0;
+    font-size: 1.2rem;
+    padding: 1rem 2rem;
+    width: 260px;
+    text-align: center;
+  }
+
+  .sotg-button {
     margin: 1rem 0;
     font-size: 1.2rem;
     padding: 1rem 2rem;
@@ -845,20 +876,142 @@
   .pools-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .pool-table {
     font-size: 0.85rem;
   }
-  
-  .pool-table th, 
+
+  .pool-table th,
   .pool-table td {
     padding: 6px 4px;
   }
-  
+
   .pool-table td:first-child {
     max-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+}
+
+/* SOTG page styles */
+.sotg-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.section-header h2 {
+  color: #009fe3;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.section-header p {
+  color: #666;
+  font-size: 1rem;
+}
+
+.division-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.division-card {
+  background-color: #fff;
+  border: 2px solid #009fe3;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.division-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 159, 227, 0.15);
+}
+
+.division-card h3 {
+  background-color: #f0f8ff;
+  color: #009fe3;
+  border-bottom: 2px solid #009fe3;
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.button-group {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.card-button {
+  display: block;
+  padding: 0.8rem 1rem;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.view-button {
+  background-color: #f0f8ff;
+  color: #009fe3;
+  border: 2px solid #009fe3;
+}
+
+.view-button:hover {
+  background-color: #e0f0ff;
+}
+
+.submit-button {
+  background-color: #009fe3;
+  color: white;
+  border: 2px solid #009fe3;
+}
+
+.submit-button:hover {
+  background-color: #0089c3;
+}
+
+.pool-button.active {
+  background-color: white;
+  color: #009fe3;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .division-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .division-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .button-group {
+    padding: 1rem;
   }
 }
