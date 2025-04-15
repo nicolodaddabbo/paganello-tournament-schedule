@@ -7,7 +7,11 @@ function App(scheduleFromSheet) {
 
   return (
     <div>
-      <Navbar />
+      <Navbar
+        title="Schedule 2025"
+        buttonText="Standings and Pools"
+        buttonHref="/pools"
+      />
       <Schedule scheduleFromSheet={scheduleFromSheet} />
     </div>
   );

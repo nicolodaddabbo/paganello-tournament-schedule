@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { google } from 'googleapis';
+import Navbar from "../../components/Navbar";
 
 class PoolRow {
     constructor(team, pt, w, l, p, gs, ga, gd) {
@@ -89,6 +90,15 @@ export async function getStaticProps() {
                 if (poolNameRight) {
                     pools.push(new Pool(poolNameRight, poolRowsRight));
                 }
+            } else if (row[1] &&
+                (row[1].startsWith('REAL MIXED') ||
+                    row[1].startsWith('LOOSE MIXED') ||
+                    row[1].startsWith('OPEN') ||
+                    row[1].startsWith('WOMEN') ||
+                    row[1].startsWith('U20') ||
+                    row[1].startsWith('U15')
+                )) {
+                console.log(`YOO: ${row[1].trim().replace(/^,/, '')}`);
             }
         }
 
@@ -157,28 +167,34 @@ export default function PoolsPage({ groupedPools }) {
     const [selectedSheet, setSelectedSheet] = useState(Object.keys(groupedPools)[0]);
 
     return (
-        <div className="pools-page">
-            <h1>Tournament Pools</h1>
-            
-            <div className="sheet-selector">
-                <label htmlFor="sheet-select">Select Pool Category:</label>
-                <select
-                    id="sheet-select"
-                    value={selectedSheet}
-                    onChange={(e) => setSelectedSheet(e.target.value)}
-                >
-                    {Object.keys(groupedPools).map(sheetName => (
-                        <option key={sheetName} value={sheetName}>
-                            {sheetName}
-                        </option>
-                    ))}
-                </select>
-            </div>
+        <div>
+            <Navbar
+                title="Standings and Pools"
+                buttonText="Schedule"
+                buttonHref="/"
+            />
 
-            <div className="pools-grid">
-                {groupedPools[selectedSheet].map((pool) => (
-                    <PoolTable key={pool.name} pool={pool} />
-                ))}
+            <div className="pools">
+                <div>
+                    <label htmlFor="sheet-select">Select Pool Category:</label>
+                    <select
+                        id="sheet-select"
+                        value={selectedSheet}
+                        onChange={(e) => setSelectedSheet(e.target.value)}
+                    >
+                        {Object.keys(groupedPools).map(sheetName => (
+                            <option key={sheetName} value={sheetName}>
+                                {sheetName}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="pools-grid">
+                    {groupedPools[selectedSheet].map((pool) => (
+                        <PoolTable key={pool.name} pool={pool} />
+                    ))}
+                </div>
             </div>
         </div>
     );
