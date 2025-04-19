@@ -127,7 +127,7 @@ export default function Home({ scheduleSaturday, scheduleSunday, scheduleMonday,
       team2 = JSON.stringify(matchRes[3][1 + colCounter])
       team2Nation = JSON.stringify(getNation(team2))
 
-      matches.push(new Match(matchRes[0][1 + colCounter], matchRes[1][0], matchRes[1][1 + colCounter], team1, team2, matchRes[2][2 + colCounter], matchRes[3][2 + colCounter], "Sunday"))
+      matches.push(new Match(matchRes[0][1 + colCounter], matchRes[1][0], matchRes[1][1 + colCounter], team1, team1Nation, team2, team2Nation, matchRes[2][2 + colCounter], matchRes[3][2 + colCounter], "Sunday"))
       colCounter += 2
     } while (colCounter < matchRes[0].length)
     i += 3;
@@ -148,7 +148,7 @@ export default function Home({ scheduleSaturday, scheduleSunday, scheduleMonday,
       team2 = JSON.stringify(matchRes[3][1 + colCounter])
       team2Nation = JSON.stringify(getNation(team2))
 
-      matches.push(new Match(matchRes[0][1 + colCounter], matchRes[1][0], matchRes[1][1 + colCounter], team1, team2, matchRes[2][2 + colCounter], matchRes[3][2 + colCounter], "Monday"))
+      matches.push(new Match(matchRes[0][1 + colCounter], matchRes[1][0], matchRes[1][1 + colCounter], team1, team1Nation, team2, team2Nation, matchRes[2][2 + colCounter], matchRes[3][2 + colCounter], "Monday"))
       colCounter += 2
     } while (colCounter < matchRes[0].length)
     i += 3;
